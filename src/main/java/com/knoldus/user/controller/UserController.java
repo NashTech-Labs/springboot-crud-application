@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 public class UserController {
@@ -24,12 +25,13 @@ public class UserController {
     }
     
     @GetMapping("/user/{id}")
-    public User getUser(@PathVariable String id) {
-        return repository.getUserById(id);
+    public Optional<User> getUser(@PathVariable String id) {
+        return repository.findById(id);
     }
     
     @PostMapping("/user/add")
-    public User addUser(@RequestBody Map<String, String> body) {
-        return repository.addUser(body.get("id"), body.get("name"), body.get("age"));
+    public User addUser(@RequestBody User newUser) {
+        User bob = User.builder().id(newUser.getId()).name(newUser.getName()).age(newUser.getAge()).build();
+        return repository.save(bob);
     }
 }
