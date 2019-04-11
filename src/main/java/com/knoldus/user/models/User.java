@@ -1,6 +1,5 @@
 package com.knoldus.user.models;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
@@ -20,11 +19,4 @@ public class User {
     private @NonNull String name;
     
     private @NonNull String age;
-    
-    /*User(String id, String name, String age) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-    }*/
-    
 }

@@ -3,6 +3,7 @@ package com.knoldus.user.controller;
 import com.knoldus.user.models.User;
 import com.knoldus.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -33,5 +33,16 @@ public class UserController {
     public User addUser(@RequestBody User newUser) {
         User bob = User.builder().id(newUser.getId()).name(newUser.getName()).age(newUser.getAge()).build();
         return repository.save(bob);
+    }
+    
+    /*@PutMapping("/user/update")
+    public User updateUser(@RequestBody User updatedUser, @PathVariable String id) {
+        return repository.save(updatedUser);
+    }*/
+    
+    @DeleteMapping("/user/delete")
+    public String deleteUser(@PathVariable String idToBeDeleted) {
+        repository.deleteById(idToBeDeleted);
+        return "User deleted";
     }
 }
