@@ -41,28 +41,40 @@ public class UserController {
         return repository.save(bob);
     }
     
-    @PutMapping("/user/update")
-    public Optional<User> updateUser(@RequestBody User updatedUser, @PathVariable String id) {
+    @PutMapping("/user/update/{id}/{name}/{age}")
+    public Optional<User> updateUser(@PathVariable String id, @PathVariable String name, @PathVariable String age) {
         Optional<User> existingUser = repository.findById(id);
         if (existingUser.isPresent()) {
             User newUser = repository.save(User.builder()
-                    .id(updatedUser.getId())
-                    .name(updatedUser.getName())
-                    .age(updatedUser.getAge())
+                    .id(id)
+                    .name(name)
+                    .age(age)
                     .build());
             return Optional.of(newUser);
         }
         return existingUser;
     }
     
-    @DeleteMapping("/user/delete")
+    @DeleteMapping("/user/delete/{idToBeDeleted}")
     public String deleteUser(@PathVariable String idToBeDeleted) {
-        repository.deleteById(idToBeDeleted);
-        return "User deleted";
+        Optional<User> existingUser = repository.findById(idToBeDeleted);
+        
+        if (existingUser.isPresent()) {
+            repository.deleteById(idToBeDeleted);
+            return "User with id " + idToBeDeleted + " deleted";
+            
+        } else {
+            return "User does not exist";
+        }
     }
     
     @GetMapping("/user/getbynameandage/{name}/{age}")
     public List<User> getUserByTwoParams(@PathVariable String name, String age) {
         return repository.getUserByNameAndAge(name, age);
+    }
+    
+    @GetMapping("/user/count/{name}")
+    public long countUsersByName(@PathVariable String name) {
+        return repository.countByName(name);
     }
 }
