@@ -107,7 +107,7 @@ public class UserController {
      * @return
      */
     @GetMapping("/user/getbynameandage/{name}/{age}")
-    public List<User> getUserByTwoParams(@PathVariable String name, String age) {
+    public List<User> getUserByTwoParams(@PathVariable String name, @PathVariable String age) {
         return repository.getUserByNameAndAge(name, age);
     }
     
