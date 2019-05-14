@@ -18,7 +18,7 @@ Steps to run the application:
           
         {
           "id": "1",
-          "name: "Knoldus",
+          "name": "Knoldus",
           "age": "7"
           }
    3. Get user by id: <code>localhost:8082/1</code>
