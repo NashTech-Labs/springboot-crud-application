@@ -9,6 +9,6 @@ public class ApplicationLoader {
     
     public static void main(String[] args) {
         
-        ApplicationContext context = SpringApplication.run(ApplicationLoader.class, args);
+        SpringApplication.run(ApplicationLoader.class, args);
     }
 }

@@ -1,6 +1,6 @@
 package com.knoldus.user.controller;
 
-import com.knoldus.user.models.User;
+import com.knoldus.user.models.Users;
 import com.knoldus.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,22 +39,23 @@ public class UserController {
      * @return
      */
     @GetMapping("/user/{id}")
-    public Optional<User> getUser(@PathVariable String id) {
+    public Optional<Users> getUser(@PathVariable String id) {
+        List<Integer> l = new ArrayList<>();
         return repository.findById(id);
     }
     
     /**
      * Adds a new user to the user table.
      *
-     * @param newUser User to be added.
+     * @param newUsers Users to be added.
      * @return
      */
-    @PostMapping("/user/add")
-    public User addUser(@RequestBody User newUser) {
-        User bob = User.builder()
-                .id(newUser.getId())
-                .name(newUser.getName())
-                .age(newUser.getAge())
+    @PostMapping("/user")
+    public Users addUser(@RequestBody Users newUsers) {
+        Users bob = Users.builder()
+                .id(newUsers.getId())
+                .name(newUsers.getName())
+                .age(newUsers.getAge())
                 .build();
         return repository.save(bob);
     }
@@ -66,16 +68,16 @@ public class UserController {
      * @param age  updated age.
      * @return
      */
-    @PutMapping("/user/update/{id}/{name}/{age}")
-    public Optional<User> updateUser(@PathVariable String id, @PathVariable String name, @PathVariable String age) {
-        Optional<User> existingUser = repository.findById(id);
+    @PutMapping("/user/{id}/{name}/{age}")
+    public Optional<Users> updateUser(@PathVariable String id, @PathVariable String name, @PathVariable String age) {
+        Optional<Users> existingUser = repository.findById(id);
         if (existingUser.isPresent()) {
-            User newUser = repository.save(User.builder()
+            Users newUsers = repository.save(Users.builder()
                     .id(id)
                     .name(name)
                     .age(age)
                     .build());
-            return Optional.of(newUser);
+            return Optional.of(newUsers);
         }
         return existingUser;
     }
@@ -86,16 +88,16 @@ public class UserController {
      * @param idToBeDeleted user id to be deleted.
      * @return
      */
-    @DeleteMapping("/user/delete/{idToBeDeleted}")
+    @DeleteMapping("/user/{idToBeDeleted}")
     public String deleteUser(@PathVariable String idToBeDeleted) {
-        Optional<User> existingUser = repository.findById(idToBeDeleted);
+        Optional<Users> existingUser = repository.findById(idToBeDeleted);
         
         if (existingUser.isPresent()) {
             repository.deleteById(idToBeDeleted);
-            return "User with id " + idToBeDeleted + " deleted";
+            return "Users with id " + idToBeDeleted + " deleted";
             
         } else {
-            return "User does not exist";
+            return "Users does not exist";
         }
     }
     
@@ -106,8 +108,8 @@ public class UserController {
      * @param age
      * @return
      */
-    @GetMapping("/user/getbynameandage/{name}/{age}")
-    public List<User> getUserByTwoParams(@PathVariable String name, @PathVariable String age) {
+    @GetMapping("/user/{name}/{age}")
+    public List<Users> getUserByNameAndAge(@PathVariable String name, @PathVariable String age) {
         return repository.getUserByNameAndAge(name, age);
     }
     

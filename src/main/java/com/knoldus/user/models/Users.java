@@ -11,7 +11,7 @@ import org.springframework.data.cassandra.core.mapping.Table;
 @Setter
 @Builder
 @Table(value = "user")
-public class User {
+public class Users {
     
     @PrimaryKey
     private @NonNull String id;
