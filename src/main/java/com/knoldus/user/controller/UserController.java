@@ -52,12 +52,8 @@ public class UserController {
      */
     @PostMapping("/user")
     public Users addUser(@RequestBody Users newUsers) {
-        Users bob = Users.builder()
-                .id(newUsers.getId())
-                .name(newUsers.getName())
-                .age(newUsers.getAge())
-                .build();
-        return repository.save(bob);
+        
+        return repository.save(newUsers);
     }
     
     /**
